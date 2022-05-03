@@ -94,17 +94,39 @@
 
 
 
-==**用户名：wry**==
+## 2. 配置Ubuntu
 
-==**密码：admin123**==
+1. 获取网络信息：192.168.2.14/24（但是端口依然是22）
 
-![image-20220502012432046](pic/image-20220502012432046.png)
+   ![image-20220503144640724](pic/image-20220503144640724.png)
 
 
 
-## 2. 检查ip地址：192.168.2.9
+2. 配置镜像源：`http://mirrors.aliyun.com/ubuntu`
 
-![image-20220502024441751](pic/image-20220502024441751.png)
+   ![image-20220502232841797](pic/image-20220502232841797.png)
+
+
+
+3. 点击upgrade
+
+   
+
+3. 配置用户信息
+
+   ==**用户名：wry**==
+
+   ==**密码：admin123**==
+
+   ![image-20220502012432046](pic/image-20220502012432046.png)
+   
+   
+   
+5. 勾选openssh
+
+   ![](pic/image-20220503130436235.png)
+
+
 
 
 
@@ -114,7 +136,7 @@
 
 依次输入：`sudo apt install net-tools`		
 
-​						`sudo apt-get install openssh-server`
+​						`sudo apt-get install openssh-server` 
 
 ​					   `sudo ufw allow 22`
 
@@ -122,11 +144,196 @@
 
 ## 4. 连接xshell和xftp
 
-1. 连接xshell
+**注意：端口一直为22**
 
-   ![image-20220502104524492](pic/image-20220502104524492.png)
+![image-20220503144809718](pic/image-20220503144809718.png)
 
-2. 连接xftp
 
-   ![image-20220502104636306](pic/image-20220502104636306.png)
 
+
+
+# 安装miniconda3（李沐）
+
+([用Ubuntu子系统下载安装Miniconda3（小白版）](https://blog.csdn.net/wangcassy/article/details/123578709)，包含多种操作)
+
+1. 输入:`sudo apt update`，更新环境
+
+2. 输入：`sudo apt install build-essential` 
+
+3. 配置python3.8环境，输入：`sudo apt install python3.8`
+
+4. 下载miniconda3，输入：`wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+
+5. 安装miniconda3，输入：`bash Miniconda3-latest-Linux-x86_64.sh`
+
+6. 进入base环境，输入：`bash`
+
+7. 安装必要的包，输入：`pip install jupyter d2l torch torchvision`
+
+   （貌似配置了清华源之后不用挂外网）
+
+   （pytorch镜像：`pip install torch torchvision -i http://mirrors.aliyun.com/pypi/simple/  --trusted-host mirrors.aliyun.com`）
+
+   （豆瓣源：`-i http://pypi.douban.com/simple/ --trusted-host pypi.douban.com`）
+
+   （配置清华源：
+
+   ```ubuntu
+   conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+   conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+   conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+   conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/
+   conda config --set show_channel_urls yes
+   ```
+
+   ）
+
+   > 清华：https://pypi.tuna.tsinghua.edu.cn/simple
+   >
+   > 阿里云：https://mirrors.aliyun.com/pypi/simple/
+   >
+   > 中国科技大学：https://pypi.mirrors.ustc.edu.cn/simple/
+   >
+   > **pip install xxx -i ......**
+
+   
+
+8. 下载测试用例：`wget https://zh-v2.d2l.ai/d2l-zh.zip`
+
+9. 下载解压包，输入：
+
+10. 解压，输入：`unzip d2l-zh.zip`
+
+11. 进入pytorch版本，输入：`cd pytorch/`
+
+    退出，输入：`cd ..`
+
+12. 连接git，输入:`git clone https://github.com/d2l-ai/d2l-zh-pytorch-slides`
+
+
+
+# 连接虚拟机和本地
+
+1. 开启虚拟机的jupyter，输入：`jupyter notebook`
+
+2. 打开本地cmd，输入：`ssh -L8888:localhost:8888 wry@192.168.2.14`，再输入对应密码
+
+3. 点击虚拟机中的locahost地址，能在本地浏览器中访问虚拟机的jupyter
+
+4. 本地cmd中安装插件，用来解析幻灯片格式，输入：`pip install rise`
+
+   ![image-20220503173358529](pic/image-20220503173358529.png)
+
+
+
+
+
+# 配置环境
+
+## 虚拟环境中创建新环境
+
+1. 创建环境，输入：`conda create -n t1 python=3.6.5`
+2. 检测环境，输入：`conda env list`
+3. 激活环境，输入：`conda activate t1`
+
+## pycharm连接远程pycharm
+
+1. 进入settings
+
+   ![image-20220503192147386](pic/image-20220503192147386.png)
+
+2. 配置设置
+
+   ![image-20220503192229050](pic/image-20220503192229050.png)
+
+   ![image-20220503192258734](pic/image-20220503192258734.png)
+
+   ![image-20220503192416385](pic/image-20220503192416385.png)
+
+3. 配置成功
+
+
+
+
+
+
+
+
+
+# Note
+
+## 1. 授权wry进入root文件夹的权限
+
+![image-20220502224204566](pic/image-20220502224204566.png)
+
+输入：`sudo chown -R wry:wry /root`
+
+
+
+## 2. 进入root环境
+
+输入：`su root`
+
+如果发生错误，提示**Authentication failure**，则按照下面步骤：
+
+1. 输入：`sudo passwd root`
+
+2. 输入：`su`
+
+3. 成功进入root
+
+   ![image-20220503000458301](pic/image-20220503000458301.png)
+
+
+
+## 3. GPU安装
+
+**（补充：安装英伟达驱动：[CUDA Toolkit 11.6 Update 2 Downloads | NVIDIA Developer](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=18.04&target_type=deb_local)，将其提供的代码输一遍即可（虽然我失败了......））**
+
+
+
+## 4. 配置链接
+
+设置路径，输入： `echo ". /root/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc`
+
+设置软连接，输入：`sudo ln -s /root/miniconda3/etc/profile.d/conda.sh /etc/profile.d/conda.sh`
+
+（每次进入root账户自动执行，输入：`echo "conda activate" >> ~/.bashrc`）
+
+输入：`source .bashrc`
+
+
+
+## 5. 修改python
+
+1. 配置root环境：`sudo passwd root`
+
+2. 进入root环境：`su root`
+
+3. 配置python3.6.5环境
+
+   输入：`sudo apt install python3.6`
+
+   更新系统，输入：`sudo apt-get update`
+
+   执行安装，输入：`sudo apt-get install python3.6`
+
+   输入：`python`
+
+   （如果不全是3.6.5，则继续后面步骤）
+
+   查看python指向，输入`：sudo ls -l /usr/bin | grep python` 
+
+   删除原有python软连接，输入：`sudo rm /usr/bin/python`
+
+   修改python指向python3.6，输入：`sudo ln -s /usr/bin/python3.6 /usr/bin/python`
+
+   更新ppa，输入：`sudo add-apt-repository ppa:deadsnakes/ppa`
+
+   更新系统，输入：`sudo apt-get update`
+
+   安装pip，输入：`sudo apt-get install python3.6-pip`
+
+   建立pip到pip3的软连接，输入：`sudo ln -s /usr/bin/pip3 /usr/bin/pip`
+
+   查看pip版本，输入：`pip --version`
